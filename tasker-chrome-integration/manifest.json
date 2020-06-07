@@ -1,0 +1,38 @@
+{
+  "description": "Tasker Chrome Integration",
+  "manifest_version": 2,
+  "name": "Tasker Chrome Integration",
+  "version": "1.0",
+  "icons": {
+    "16": "icons/tasker.png"
+  },
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "browser_action": {
+    "default_icon": "icons/tasker.png"
+  },
+  "permissions": [
+    "nativeMessaging",
+    "tabs",
+    "activeTab",
+    "background",
+    "http://*/", "https://*/"
+  ],
+  "options_ui": {
+    "page": "options/options.html",
+    "browser_style": true
+  },
+  "content_scripts": [
+     {
+       "matches": ["<all_urls>"],
+       "run_at": "document_end",
+       "js": ["content/content.js"]
+     }
+   ],
+  "allowed_origins": [
+    "chrome-extension://kejbjmcifabkmfijiohnbllogajnfggb/"
+  ]
+}
