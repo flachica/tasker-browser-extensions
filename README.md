@@ -8,6 +8,7 @@ To use it you need create a file here $HOME/.config/google-chrome/NativeMessagin
 
 The content must be:
 
+```
 {
   "name": "tasker_integration",
   "description": "Tasker integration",
@@ -15,5 +16,5 @@ The content must be:
   "type": "stdio",
   "allowed_origins": [ "chrome-extension://kejbjmcifabkmfijiohnbllogajnfggb/" ]
 }
-
+```
 [+INFO:](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_messaging#Exchanging_messages) App Manifest
