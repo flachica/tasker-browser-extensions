@@ -12,19 +12,24 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             function(item) {
                 var re = new RegExp(item.url);
                 if (re.test(window.location.href)) {
-                    var element = getElementByXpath(item.xpath);
-                    messagetext = element.innerHTML;
+                    var todoEl = getElementByXpath(item.xpath);
+                    var projectEl = getElementByXpath(item.project);
+                    var contextEl = getElementByXpath(item.context);
+
+                    todoText = todoEl.innerHTML;
+                    project = projectEl.innerHTML;
+                    context = contextEl.innerHTML;
                     if (!document.getElementById('taskerControl')) {
-                        if (element) {
-                            element.insertAdjacentHTML("afterend", taskerControlTemplate);
+                        if (todoEl) {
+                            todoEl.insertAdjacentHTML("afterend", taskerControlTemplate);
                             document.querySelector('#taskerControl').addEventListener('click', function() {
-                                sendMessageBackground({type: 'changeState', 'payload': {'todo': messagetext}});
-                                sendMessageBackground({type: 'getState', 'payload': {'todo': messagetext}});
+                                sendMessageBackground({type: 'changeState', 'payload': {'todo': todoText, 'project': project, 'context': context}});
+                                sendMessageBackground({type: 'getState', 'payload': {'todo': todoText}});
                             });
                         }
                     }
                     var element = getElementByXpath(item.xpath);
-                    sendMessageBackground({type: 'getState', 'payload': {'todo': messagetext}});
+                    sendMessageBackground({type: 'getState', 'payload': {'todo': todoText}});
                 }
             }
         );

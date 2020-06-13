@@ -12,6 +12,12 @@ const newItemTemplate = `
                     <input id="xpathnewIndex" type="text" value="newXPATH"/>
                 </td>
                 <td>
+                    <input id="projectnewIndex" type="text" value="newPROJECT"/>
+                </td>
+                <td>
+                    <input id="contextnewIndex" type="text" value="newCONTEXT"/>
+                </td>
+                <td>
                     <span id="delnewIndex"><i class="fas fa-trash"></i></span>
                 </td>
             `;
@@ -20,7 +26,7 @@ const newItemElementHook = `<tr id="toNewItem" style="display: none"></tr>`
 function updateUI() {
     var preferences = window.localStorage.getItem('preferences');
     if (preferences) {
-        JSON.parse(preferences).forEach(item => addItem(item.url, item.xpath));
+        JSON.parse(preferences).forEach(item => addItem(item.url, item.xpath, item.project, item.context));
     }
 }
 
@@ -39,8 +45,10 @@ function saveShortcut() {
     for(i = 0; i < trs.length - 2; ++i) {
         var url = trs[i].children[0].children[0].value;
         var xpath = trs[i].children[1].children[0].value;
+        var project = trs[i].children[2].children[0].value;
+        var context = trs[i].children[3].children[0].value;
 
-        items.push({'url': url, 'xpath': xpath});
+        items.push({'url': url, 'xpath': xpath, 'project': project, 'context': context});
     }
     window.localStorage.setItem('preferences', JSON.stringify(items));
     window.close();
@@ -51,7 +59,7 @@ function cancelShortcut() {
 }
 
 function addShortcut() {
-    addItem('', '');
+    addItem('', '', '', '');
 }
 
 function delShortcut() {
@@ -59,13 +67,13 @@ function delShortcut() {
     elem.parentNode.removeChild(elem);
 }
 
-function addItem(url, xpath) {
+function addItem(url, xpath, project, context) {
     if (checkIfEmpty()) return;
 
     var el = document.querySelector('#toNewItem');
     let newIndex = el.parentNode.childElementCount - 1;
     var newEl = document.createElement('tr');
-    newEl.innerHTML = newItemTemplate.split('newIndex').join(newIndex).split('newURL').join(url).split('newXPATH').join(xpath);
+    newEl.innerHTML = newItemTemplate.split('newIndex').join(newIndex).split('newURL').join(url).split('newXPATH').join(xpath).split('newPROJECT').join(project).split('newCONTEXT').join(context);
     newEl.id = "row" + newIndex;
 
     el.parentNode.replaceChild(newEl, el);
