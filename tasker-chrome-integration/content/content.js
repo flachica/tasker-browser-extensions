@@ -23,8 +23,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                         if (todoEl) {
                             todoEl.insertAdjacentHTML("afterend", taskerControlTemplate);
                             document.querySelector('#taskerControl').addEventListener('click', function() {
-                                sendMessageBackground({type: 'changeState', 'payload': {'todo': todoText, 'project': project, 'context': context}});
-                                sendMessageBackground({type: 'getState', 'payload': {'todo': todoText}});
+                                changeState(todoText, project,  context);
                             });
                         }
                     }
@@ -44,6 +43,18 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         }
     }
 });
+
+function changeState(todoText, project, context) {
+    messageJSON = {type: 'changeState', 'payload': {'todo': todoText, 'project': project, 'context': context}};
+    if (document.getElementById('taskerControl').classList.contains('fa-pause')) {
+        var desc = prompt("Description for task?");
+        if (desc != null) {
+            messageJSON['payload']['description'] = desc
+        }
+    }
+    sendMessageBackground(messageJSON);
+    sendMessageBackground({type: 'getState', 'payload': {'todo': todoText}});
+}
 
 function sendMessageBackground(payload) {
     var messageJSON = {message: {'type': 'sendMessageTasker', 'payload': payload}};
