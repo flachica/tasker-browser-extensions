@@ -13,12 +13,19 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                 var re = new RegExp(item.url);
                 if (re.test(window.location.href)) {
                     var todoEl = getElementByXpath(item.xpath);
-                    var projectEl = getElementByXpath(item.project);
-                    var contextEl = getElementByXpath(item.context);
+                    var project = ''
+                    var context = ''
+                    if (item.project) {
+                        var projectEl = getElementByXpath(item.project);
+                        project = projectEl.innerHTML;
+                    }
+
+                    if (item.context) {
+                        var contextEl = getElementByXpath(item.context);
+                        context = contextEl.innerHTML;
+                    }
 
                     todoText = todoEl.innerHTML;
-                    project = projectEl.innerHTML;
-                    context = contextEl.innerHTML;
                     if (!document.getElementById('taskerControl')) {
                         if (todoEl) {
                             todoEl.insertAdjacentHTML("afterend", taskerControlTemplate);
@@ -47,7 +54,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 function changeState(todoText, project, context) {
     messageJSON = {type: 'changeState', 'payload': {'todo': todoText, 'project': project, 'context': context}};
     if (document.getElementById('taskerControl').classList.contains('fa-pause')) {
-        var desc = prompt("Description for task?");
+        var desc = prompt('Description for ' + todoText + '?');
         if (desc != null) {
             messageJSON['payload']['description'] = desc
         }

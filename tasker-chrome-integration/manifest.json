@@ -2,7 +2,7 @@
   "description": "Tasker Chrome Integration",
   "manifest_version": 2,
   "name": "Tasker Chrome Integration",
-  "version": "1.0",
+  "version": "0.0.0.1",
   "icons": {
     "16": "icons/tasker.png"
   },
@@ -16,9 +16,7 @@
   },
   "permissions": [
     "nativeMessaging",
-    "tabs",
     "activeTab",
-    "background",
     "http://*/", "https://*/"
   ],
   "options_ui": {
