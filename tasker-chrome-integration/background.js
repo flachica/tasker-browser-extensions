@@ -1,11 +1,10 @@
 var port = chrome.runtime.connectNative("tasker_integration");
+var preferences;
 
 port.onMessage.addListener((response) => {
   console.log("From Tasker: " + response);
   if (response.type == 'stateGetted')
     sendMessageContentScript("taskerStateGetted", response)
-  else
-    console.log(response)
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -17,7 +16,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if (changeInfo.status == 'complete') {
-        var preferences = window.localStorage.getItem('preferences');
+        preferences = window.localStorage.getItem('preferences');
         if (preferences) {
             JSON.parse(preferences).forEach(
                 function(item) {
@@ -37,13 +36,21 @@ function sendInitPreferences() {
 }
 
 function sendMessageContentScript(type, payload) {
-    console.log('To Content: ' + type);
     chrome.tabs.query({active: true}, function(tabs){
-        chrome.tabs.sendMessage(tabs[0].id, {'message':
-        {
-            'type': type,
-            'payload': payload
-        }
-    }, function(response) {});
+        JSON.parse(preferences).forEach(
+            function(item) {
+                var re = new RegExp(item.url);
+                tabs.forEach(
+                    function (tab) {
+                        if (re.test(tab.url)) {
+                            var messageJSON = {'message':{'type': type, 'payload': payload}};
+                            chrome.tabs.sendMessage(tab.id, messageJSON, function(response) {
+                                console.log('Message sended')
+                            });
+                        }
+                    }
+                );
+            }
+        );
     });
 }
