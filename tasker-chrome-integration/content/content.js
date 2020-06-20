@@ -13,19 +13,21 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                 var re = new RegExp(item.url);
                 if (re.test(window.location.href)) {
                     var todoEl = getElementByXpath(item.xpath);
+                    if (todoEl) todoText = todoEl.innerHTML;
+                    else return;
+
                     var project = ''
-                    var context = ''
                     if (item.project) {
                         var projectEl = getElementByXpath(item.project);
-                        project = projectEl.innerHTML;
+                        if (projectEl) project = projectEl.innerHTML;
                     }
 
+                    var context = ''
                     if (item.context) {
                         var contextEl = getElementByXpath(item.context);
-                        context = contextEl.innerHTML;
+                        if (contextEl) context = contextEl.innerHTML;
                     }
 
-                    todoText = todoEl.innerHTML;
                     if (!document.getElementById('taskerControl')) {
                         if (todoEl) {
                             todoEl.insertAdjacentHTML("afterend", taskerControlTemplate);
@@ -34,7 +36,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                             });
                         }
                     }
-                    var element = getElementByXpath(item.xpath);
                     sendMessageBackground({type: 'getState', 'payload': {'todo': todoText}});
                 }
             }
