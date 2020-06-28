@@ -1,5 +1,4 @@
 const taskerControlTemplate = '<button href="#" id="taskerControl"><img id="taskerControlImg" /></button>'
-const extensionID = 'kejbjmcifabkmfijiohnbllogajnfggb'
 
 function getElementByXpath(path) {
   return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
@@ -63,6 +62,6 @@ function changeState(todoText, project, context) {
 
 function sendMessageBackground(payload) {
     var messageJSON = {message: {'type': 'sendMessageTasker', 'payload': payload}};
-    chrome.runtime.sendMessage(extensionID, messageJSON);
+    chrome.runtime.sendMessage(chrome.runtime.id, messageJSON);
     console.log('To Background: ' + payload.type);
 }
