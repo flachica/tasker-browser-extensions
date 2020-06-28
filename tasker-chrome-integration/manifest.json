@@ -26,7 +26,11 @@
      {
        "matches": ["<all_urls>"],
        "run_at": "document_end",
+       "css": ["content/content.css"],
        "js": ["content/content.js"]
      }
-   ]
+   ],
+  "web_accessible_resources": [
+    "icons/*.png"
+  ]
 }

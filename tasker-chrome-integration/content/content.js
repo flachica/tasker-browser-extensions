@@ -1,4 +1,4 @@
-const taskerControlTemplate = '<button id="taskerControl" class="ml-1 btn btn-primary fa fa-play" style="margin-left: 0.25em;"/>'
+const taskerControlTemplate = '<button href="#" id="taskerControl"><img id="taskerControlImg" /></button>'
 const extensionID = 'kejbjmcifabkmfijiohnbllogajnfggb'
 
 function getElementByXpath(path) {
@@ -41,14 +41,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             }
         );
     } else if (request.message.type == 'taskerStateGetted') {
-        classList = document.getElementById('taskerControl').classList;
-        classList.remove("fa-play");
-        classList.remove("fa-pause");
+        var imgURL = chrome.runtime.getURL("icons/play.png");
         if (request.message.payload.state == 'started') {
-            classList.add('fa-pause');
-        } else {
-            classList.add('fa-play');
+            imgURL = chrome.runtime.getURL("icons/pause.png");
         }
+        document.getElementById("taskerControlImg").src = imgURL;
     }
 });
 

@@ -18,7 +18,7 @@ const newItemTemplate = `
                     <input id="contextnewIndex" type="text" value="newCONTEXT"/>
                 </td>
                 <td>
-                    <span id="delnewIndex"><i class="fas fa-trash"></i></span>
+                    <span id="delnewIndex"><a href="#" ><img src="../icons/trash.png" style="width: 12px; heigth: 12px;" /></a></span>
                 </td>
             `;
 const newItemElementHook = `<tr id="toNewItem" style="display: none"></tr>`

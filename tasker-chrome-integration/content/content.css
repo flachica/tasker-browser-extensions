@@ -1,0 +1,11 @@
+#taskerControl {
+    border: 0;
+    background: none;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+#taskerControlImg {
+    height: 35px;
+    width: 35px;
+}
