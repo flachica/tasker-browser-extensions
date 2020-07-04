@@ -17,6 +17,7 @@
   "permissions": [
     "nativeMessaging",
     "activeTab",
+    "tabs",
     "http://*/", "https://*/"
   ],
   "options_ui": {

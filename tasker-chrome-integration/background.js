@@ -7,10 +7,21 @@ port.onMessage.addListener((response) => {
     sendMessageContentScript("taskerStateGetted", response)
 });
 
+port.onDisconnect.addListener((p) => {
+  if (p.error) {
+    console.log(`Disconnected due to an error: ${p.error.message}`);
+  }
+});
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log('To Tasker: ' + request.message.type);
     if (request.message.type == 'sendMessageTasker') {
-        if (port) port.postMessage(JSON.stringify(request.message.payload));
+        if (port) {
+            console.log('Before message to Tasker');
+            port.postMessage(JSON.stringify(request.message.payload));
+        } else {
+            console.log('Port is undefined. Cannot communicate with Tasker')
+        }
     }
 });
 
@@ -33,6 +44,8 @@ function sendInitPreferences() {
     var preferences = window.localStorage.getItem('preferences');
     if (preferences)
         sendMessageContentScript('initWithPreferences', preferences);
+    else
+        console.log('Configure this extension please');
 }
 
 function sendMessageContentScript(type, payload) {

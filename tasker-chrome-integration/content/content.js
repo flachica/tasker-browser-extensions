@@ -1,5 +1,3 @@
-const taskerControlTemplate = '<button href="#" id="taskerControl"><img id="taskerControlImg" /></button>'
-
 function getElementByXpath(path) {
   return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
@@ -29,7 +27,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
                     if (!document.getElementById('taskerControl')) {
                         if (todoEl) {
-                            todoEl.insertAdjacentHTML("afterend", taskerControlTemplate);
+                            todoEl.insertAdjacentHTML("afterend", '<button href="#" id="taskerControl"><img id="taskerControlImg" /></button>');
                             document.querySelector('#taskerControl').addEventListener('click', function() {
                                 changeState(todoText, project,  context);
                             });
