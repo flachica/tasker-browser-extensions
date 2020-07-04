@@ -1,7 +1,7 @@
 {
-  "description": "Tasker Chrome Integration",
+  "description": "Tasker Integration",
   "manifest_version": 2,
-  "name": "Tasker Chrome Integration",
+  "name": "Tasker Integration",
   "version": "0.0.0.1",
   "icons": {
     "16": "icons/tasker.png"
