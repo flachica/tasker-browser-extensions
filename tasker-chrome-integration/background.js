@@ -17,7 +17,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log('To Tasker: ' + request.message.type);
     if (request.message.type == 'sendMessageTasker') {
         if (port) {
-            console.log('Before message to Tasker');
             port.postMessage(JSON.stringify(request.message.payload));
         } else {
             console.log('Port is undefined. Cannot communicate with Tasker')
